@@ -36,7 +36,9 @@ FUNCTION totalOrd RETURN CHAR FORWARD.
 FUNCTION totalOrd RETURN CHAR:
 
     FOR EACH OtherCust NO-LOCK BREAK BY OtherCust.City:
-        ASSIGN orderNumber = 0.
+        IF FIRST-OF(OtherCust.City)THEN DO:
+            ASSIGN orderNumber = 0.
+        END.
         FOR EACH OtherOrd OF OtherCust NO-LOCK:
             ASSIGN orderNumber = orderNumber + 1.
         END.
@@ -46,6 +48,7 @@ FUNCTION totalOrd RETURN CHAR:
                 cityName     = OtherCust.City.
         END.
     END.
+    DISPLAY orderMaximum.
     RETURN cityName.
 END FUNCTION.
 
